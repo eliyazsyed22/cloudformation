@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  MyKeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Select the keypair
+
+  EnvironmentName:
+    Description: Select the Environment
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - prod
+
+Mappings:
+  MyRegionMap:
+    us-east-1:
+      HVM64: ami-07ff62358b87c7116
+    us-west-1:
+      HVM64: ami-0ecb62995f68bb549 
+
+  MyEnvironmentMap:
+    dev:
+      InstanceType: t3.micro
+    prod:
+      InstanceType: t3.small    
+
+Resources:
+  MyVMInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !FindInMap
+        - MyRegionMap
+        - !Ref 'AWS::Region'
+        - HVM64
+      InstanceType: !FindInMap
+        - MyEnvironmentMap
+        - !Ref EnvironmentName:
+        - InstanceType
+      KeyName: !Ref MyKeyName

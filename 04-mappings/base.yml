@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  MyVMInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-07ff62358b87c7116
+      InstanceType: t3.micro
+      KeyName: cfn-key-1
